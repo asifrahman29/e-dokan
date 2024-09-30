@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CartItem extends Model
 {
@@ -16,18 +17,23 @@ class CartItem extends Model
     ];
 
     /**
+     * # Relationships
      * belongs to user, product
      */
-    public function user()
+    public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function product()
+    public function product() : BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
+    /**
+     * Local Scopes query
+     * 
+     */
     public function getQuantityAttribute($value)
     {
         return (int) $value;
@@ -62,5 +68,4 @@ class CartItem extends Model
     {
         return $this->quantity * $this->product->price;
     }
-
 }

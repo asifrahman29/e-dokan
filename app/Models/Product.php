@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Product extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'description',
@@ -25,7 +27,7 @@ class Product extends Model
     ];
 
     /**
-     * # Relationships
+     * Relationships
      * belongsTo: category, subcategory, brand
      */
     public function category() : BelongsTo
@@ -44,15 +46,14 @@ class Product extends Model
     }
 
     /**
-     * # Relationships
-     * has many :carts, reviews, orders, wishlists
+     * Relationships
+     * has many : carts, reviews, orders, wishlists
      * has one : productAttribute
      */
-
-     public function carts() : HasMany
-     {
-         return $this->hasMany(CartItem::class);
-     }
+    public function carts() : HasMany
+    {
+        return $this->hasMany(CartItem::class);
+    }
      
     public function reviews() : HasMany
     {
@@ -74,36 +75,39 @@ class Product extends Model
         return $this->hasOne(ProductAttribute::class);
     }
 
-
-
     /**
-     * # Query
+     * Query Scopes
      * available : quantity, active, recent
      */
-    public function available($query)
+    public function scopeAvailable($query)
     {
         return $query->where('quantity', '>', 1);
     }
-    public function active($query)
+
+    public function scopeActive($query)
     {
         return $query->where('status', 1);
     }
-    public function recent($query)
+
+    public function scopeRecent($query)
     {
         return $query->orderBy('id', 'desc');
     }
 
     /**
-     * Get the image in strage
+     * Handle the product image (set and get)
      */
-    public function getImage($value)
+    protected function productImage(): Attribute
     {
-        return asset('storage/product/image' . $value);
+        return Attribute::make(
+            set: function ($value) {
+                if ($value instanceof \Illuminate\Http\UploadedFile) {
+                    $path = $value->store('products/images', 'public');
+                    return $path;
+                }
+                return $value;
+            },
+            get: fn ($value) => asset('storage/' . $value),
+        );
     }
-    /**
-     * set/save the image use store() mrthod
-     */
-    public function setImage($value)
-    
-
 }

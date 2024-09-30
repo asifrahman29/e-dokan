@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductAttribute extends Model
 {
@@ -15,7 +16,11 @@ class ProductAttribute extends Model
         'attribute_value',
     ];
 
-    public function product()
+    /**
+     * # Relationships
+     * belongs to : product
+     */
+    public function product() : BelongsTo
     {
         return $this->belongsTo(Product::class);
     }

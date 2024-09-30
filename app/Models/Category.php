@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -18,12 +20,12 @@ class Category extends Model
     /**
      * Relationships: has many subcategories, products.
      */
-    public function subcategories()
+    public function subcategories(): HasMany
     {
         return $this->hasMany(Subcategory::class);
     }
 
-    public function products()
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class);
     }
@@ -37,23 +39,19 @@ class Category extends Model
     }
 
     /**
-     * Accessor: Get full icon URL from storage.
+     * Handle the icon attribute using Accessor and Mutator.
      */
-    public function getIconAttribute($value)
+    protected function icon(): Attribute
     {
-        return asset('storage/' . $value);
-    }
-
-    /**
-     * Mutator: Store icon in 'category/icons' folder inside 'public' disk.
-     */
-    public function setIconAttribute($value)
-    {
-        if ($value instanceof \Illuminate\Http\UploadedFile) {
-            $path = $value->store('category/icons', 'public');
-            $this->attributes['icon'] = $path;
-        } else {
-            $this->attributes['icon'] = $value;
-        }
+        return Attribute::make(
+            set: function ($value) {
+                if ($value instanceof \Illuminate\Http\UploadedFile) {
+                    $path = $value->store('category/icons', 'public');
+                    return $path;
+                }
+                return $value;
+            },
+            get: fn($value) => asset('storage/' . $value),
+        );
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Coupon extends Model
 {
@@ -26,6 +27,17 @@ class Coupon extends Model
         'expiry_date' => 'datetime',
     ];
 
+    /**
+     * Relationships: has many orders
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    /**
+     * 
+     */
     public function isExpired()
     {
         return $this->expiry_date < now();
@@ -44,13 +56,5 @@ class Coupon extends Model
     public function scopeAvailable($query)
     {
         return $query->where('is_active', 1)->where('expiry_date', '>', now());
-    }
-
-    /**
-     * Relationships: has many orders
-     */
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
     }
 }

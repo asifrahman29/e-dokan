@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
@@ -24,12 +27,12 @@ class Order extends Model
      * belongsto: user, coupon_code
      */
 
-    public function user()
+    public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function coupon()
+    public function coupon() : BelongsTo
     {
         return $this->belongsTo(Coupon::class);
     }
@@ -39,12 +42,12 @@ class Order extends Model
      * has many: orderItems
      * has one: payment
      */
-    public function orderItems()
+    public function orderItems() : HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
 
-    public function payment()
+    public function payment() : HasOne
     {
         return $this->hasOne(Payment::class);
     }
