@@ -77,4 +77,13 @@ class User extends Authenticatable
     /**
      * end of relationships
      */
+
+     /**
+      * hasRole
+      */
+
+    public function hasRole(string $role) : bool
+    {
+        return $this->role === $role;
+    }
 }
