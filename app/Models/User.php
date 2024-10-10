@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'phone',
+        'image',
     ];
 
     /**
@@ -85,5 +88,9 @@ class User extends Authenticatable
     public function hasRole(string $role) : bool
     {
         return $this->role === $role;
+    }
+    public function hasAnyRole(array $roles): bool
+    {
+        return in_array($this->role, $roles);
     }
 }

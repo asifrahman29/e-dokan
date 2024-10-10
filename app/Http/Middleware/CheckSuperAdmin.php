@@ -16,9 +16,12 @@ class CheckSuperAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::user()->role  === 'superadmin' || !Auth::user()->isSuperAdmin) {
-            return response()->json(['message' => 'You do not have permission to perform this action.'], 403);
+        if (Auth::check() && Auth::user()->role === 'superadmin' && Auth::user()->isSuperadmin) {
+            return $next($request);
         }
-        return $next($request);
+        
+        return Auth::check()
+            ? response()->json(['message' => 'You do not have permission to perform this action.'], 403)
+            : redirect()->route('login')->withErrors('You need to log in to access this page.');
     }
 }

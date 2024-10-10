@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
                 'name' => $name,
                 'email' => $name . "@gmail.com",
                 'role' => $name,
+                'image' => 'assets/img/' . $name . '.jpg',
                 'password' => bcrypt($name . "12345"),
             ]);
         }

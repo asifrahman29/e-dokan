@@ -16,10 +16,12 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::user()->role  === 'admin' || !Auth::user()->isAdmin) {
-            return response()->json(['message' => 'You do not have permission to perform this action.'], 403);
+        if (Auth::check() && Auth::user()->role === 'admin' && Auth::user()->isAdmin) {
+            return $next($request);
         }
 
-        return $next($request);
+        return Auth::check()
+            ? response()->json(['message' => 'You do not have permission to perform this action.'], 403)
+            : redirect()->route('login')->withErrors('You need to log in to access this page.');
     }
 }

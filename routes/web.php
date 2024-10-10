@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SuperAdmin\SuperAdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Routing\Redirector;
 
 /**
  * welcom page
@@ -11,21 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-/**
- * logical dashboard
- */
-Route::get('/dashboard', function () {
-    switch (Auth::user()->role) {
-        case 'admin':
-            return redirect()->intended(route('admin.dashboard'));
-        case 'superadmin':
-            return redirect()->intended(route('superadmin.dashboard'));
-        case 'customer':
-            return redirect()->intended(route('customer.dashboard'));
-        default:
-            return redirect()->route('home');
-    }
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'index'])
+    ->middleware('role:superadmin,admin,customer')
+    ->name('dashboard');
 
 
 /**
@@ -37,34 +29,27 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-/**
- * superadmin all route
- */
-Route::middleware('auth', 'superadmin')->group(function () {
-    //
-    // Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
-
+// /**
+//  * superadmin all route
+//  */
+Route::middleware('auth', 'role:superadmin')->group(function () {
+    Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
 });
 
-/**
- * admin all route
- */
+
+// /**
+//  * admin all route
+//  */
 Route::middleware('auth', 'role:admin')->group(function () {
-    //
-    // Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });
+
 
 /**
  * customer all route
  */
-Route::middleware('auth', 'customer')->group(function () {
-    //
-
-});
-
-Route::get('/test', function () {
-    return view('admin.dashboard');
+Route::middleware('auth', 'role:customer,admin,superadmin')->group(function () {
+    Route::get('/home', [AdminController::class, 'dashboard'])->name('home');
 });
 
 require __DIR__ . '/auth.php';
