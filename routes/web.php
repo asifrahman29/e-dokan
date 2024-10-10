@@ -60,7 +60,6 @@ Route::middleware('auth', 'role:admin')->group(function () {
  */
 Route::middleware('auth', 'customer')->group(function () {
     //
-    // Route::get('/customer/dashboard', [CustomerController::class, 'dashboard'])->name('customer.dashboard');
 
 });
 
