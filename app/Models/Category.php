@@ -54,4 +54,12 @@ class Category extends Model
             get: fn($value) => asset('storage/' . $value),
         );
     }
+
+    /**
+     * Pluck name id
+     */
+    public static function plucking()
+    {
+        return self::pluck('name', 'id');
+    }
 }

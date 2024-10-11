@@ -40,4 +40,12 @@ class Subcategory extends Model
     {
         return $query->where('is_active', 1);
     }
+    
+    /**
+     * Pluck name id
+     */
+    public static function plucking()
+    {
+        return self::pluck('name', 'id');
+    }
 }

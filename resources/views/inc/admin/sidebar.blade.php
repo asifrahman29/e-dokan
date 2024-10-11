@@ -57,6 +57,10 @@
                     <x-admin.subitem href="components/tooltips.html" label="Tooltips" />
                 </x-admin.navitem>
 
+                <x-admin.navitem collapseId="productscollapse" icon="th-list" title="Products">
+                    <x-admin.subitem href="{{ route('products.index') }}" label="Show Products" />
+                    <x-admin.subitem href="sidebar-style-3.html" label="Sidebar Style 3" />
+                </x-admin.navitem>
                 <x-admin.navitem collapseId="sidebarLayouts" icon="th-list" title="Sidebar Layouts">
                     <x-admin.subitem href="sidebar-style-2.html" label="Sidebar Style 2" />
                     <x-admin.subitem href="sidebar-style-3.html" label="Sidebar Style 3" />

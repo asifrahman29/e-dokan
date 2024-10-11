@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuperAdmin\SuperAdminController;
 use Illuminate\Support\Facades\Auth;
@@ -41,7 +42,8 @@ Route::middleware('auth', 'role:superadmin')->group(function () {
 //  * admin all route
 //  */
 Route::middleware('auth', 'role:admin')->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::resource('product', ProductController::class,)->names('products');
+    
 });
 
 

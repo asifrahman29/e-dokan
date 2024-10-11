@@ -30,17 +30,17 @@ class Product extends Model
      * Relationships
      * belongsTo: category, subcategory, brand
      */
-    public function category() : BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function subcategory() : BelongsTo
+    public function subcategory(): BelongsTo
     {
         return $this->belongsTo(Subcategory::class);
     }
 
-    public function brand() : BelongsTo
+    public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class);
     }
@@ -50,27 +50,27 @@ class Product extends Model
      * has many : carts, reviews, orders, wishlists
      * has one : productAttribute
      */
-    public function carts() : HasMany
+    public function carts(): HasMany
     {
         return $this->hasMany(CartItem::class);
     }
-     
-    public function reviews() : HasMany
+
+    public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }
 
-    public function orders() : HasMany
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    public function wishlists() : HasMany
+    public function wishlists(): HasMany
     {
         return $this->hasMany(Wishlist::class);
     }
 
-    public function productAttributes() : HasOne
+    public function productAttributes(): HasOne
     {
         return $this->hasOne(ProductAttribute::class);
     }
@@ -107,7 +107,29 @@ class Product extends Model
                 }
                 return $value;
             },
-            get: fn ($value) => asset('storage/' . $value),
+            get: fn($value) => asset('storage/' . $value),
         );
+    }
+
+    /**
+     * Pluck Id Name
+     */
+    public static function plucking()
+    {
+        return self::pluck('name', 'id');
+    }
+    /**
+     * product search by name and slug
+     */
+    public function scopeSearch($query, $term)
+    {
+        $term = "%$term%";
+        return $query->where(function ($query) use ($term) {
+            $query->where('name', 'like', $term)
+                ->orWhere('slug', 'like', $term)
+                ->orWhereHas('brand', function ($query) use ($term) {
+                    $query->where('name', 'like', $term);
+                });
+        });
     }
 }

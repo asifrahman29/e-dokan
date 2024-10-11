@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/kaiadmin.min.css') }}" />
 
     {{-- CSS Just for demo purpose, don't include it in your project  --}}
-    <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" /> --}}
 
     @yield('styles')
 </head>
@@ -105,8 +105,15 @@
 
     {{-- Kaiadmin DEMO methods, don't include it in your project!  --}}
     {{-- <script src="{{ asset('assets/js/setting-demo.js') }}"></script> --}}
-    <script src="{{ asset('assets/js/demo.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/demo.js') }}"></script> --}}
     <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        })
         $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
             type: "line",
             height: "70",
@@ -133,6 +140,7 @@
             lineColor: "#ffa534",
             fillColor: "rgba(255, 165, 52, .14)",
         });
+        // 
     </script>
 
     @yield('scripts')

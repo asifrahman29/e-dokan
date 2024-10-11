@@ -13,14 +13,14 @@ class Brand extends Model
     protected $fillable = [
         'name',
         'description',
-        'is_active', 
+        'is_active',
     ];
 
     /**
      * # Relationships
      * has many products.
      */
-    public function products() : HasMany
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class);
     }
@@ -34,4 +34,11 @@ class Brand extends Model
         return $query->where('is_active', 1);
     }
 
+    /**
+     * Pluck name id
+     */
+    public static function plucking()
+    {
+        return self::pluck('name', 'id');
+    }
 }
