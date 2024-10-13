@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Social\SocialAuthController;
 use App\Http\Controllers\SuperAdmin\SuperAdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -15,15 +16,22 @@ use Illuminate\Routing\Redirector;
 Route::get('/', function () {
     return view('welcome');
 });
-
+/** Dashboard */
 Route::get('dashboard', [DashboardController::class, 'index'])
     ->middleware('role:superadmin,admin,customer')
     ->name('dashboard');
 
+/** Social login */
+Route::prefix('auth')->group(function () {
+    Route::get('{provider}/redirect', [SocialAuthController::class, 'redirectToProvider'])
+         ->name('social.redirect');
+    Route::get('{provider}/callback', [SocialAuthController::class, 'handleProviderCallback'])
+         ->name('social.callback');
+});
 
-/**
- * profile
- */
+/** Admin */
+
+/** profile */
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

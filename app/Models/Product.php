@@ -94,6 +94,21 @@ class Product extends Model
         return $query->orderBy('id', 'desc');
     }
 
+    public function nextRoute($route)
+    {
+        $next = static::where('id', '>', $this->id)
+            ->orderBy('id', 'asc')
+            ->value('id');
+        return $next ? route($route, $next) : '';
+    }
+
+    public function previousRoute($route)
+    {
+        $previous = static::where('id', '<', $this->id)
+            ->orderBy('id', 'desc')
+            ->value('id');
+        return $previous ? route($route, $previous) : '';
+    }
     /**
      * Handle the product image (set and get)
      */

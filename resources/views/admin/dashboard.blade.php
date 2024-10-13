@@ -225,7 +225,7 @@
                         <div class="card-list py-4">
                             <div class="item-list">
                                 <div class="avatar">
-                                    <img src="assets/img/jm_denis.jpg" alt="..."
+                                    <img src="{{ asset('assets/img/jm_denis.jpg') }}" alt="..."
                                         class="avatar-img rounded-circle" />
                                 </div>
                                 <div class="info-user ms-3">
@@ -256,7 +256,7 @@
                             </div>
                             <div class="item-list">
                                 <div class="avatar">
-                                    <img src="assets/img/talha.jpg" alt="..." class="avatar-img rounded-circle" />
+                                    <img src="{{ asset('assets/img/talha.jpg') }}" alt="..." class="avatar-img rounded-circle" />
                                 </div>
                                 <div class="info-user ms-3">
                                     <div class="username">Talha</div>
@@ -271,7 +271,7 @@
                             </div>
                             <div class="item-list">
                                 <div class="avatar">
-                                    <img src="assets/img/chadengle.jpg" alt="..."
+                                    <img src="{{ asset('assets/img/chadengle.jpg') }}" alt="..."
                                         class="avatar-img rounded-circle" />
                                 </div>
                                 <div class="info-user ms-3">

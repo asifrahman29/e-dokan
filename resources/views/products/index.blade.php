@@ -111,9 +111,12 @@
         $(document).ready(function() {
 
             $('#productTable').DataTable({
-                columnDefs: [{ width: '15%', targets: 7 }],
+                columnDefs: [{
+                    width: '15%',
+                    targets: 7
+                }],
                 processing: true,
-                responsive: true, 
+                responsive: true,
                 serverSide: true,
                 ajax: {
                     url: '{{ route('products.index') }}',
@@ -177,15 +180,16 @@
 @endsection
 
 @section('style')
-<style>
+    <style>
+        table.dataTable tbody td {
+            padding: 5px;
+        }
 
-    table.dataTable tbody td {
-        padding: 5px;
-    }
-    table.dataTable tbody td a.btn {
-    margin: 0 2px; /* Button এর মধ্যে margin কমান */
-    font-size: 12px; /* Font size পরিবর্তন করুন */
-}
+        table.dataTable tbody td a.btn {
+            margin: 0 2px;
+            /* Button এর মধ্যে margin কমান */
+            font-size: 1rem;
+            /* Font size পরিবর্তন করুন */
+        }
     </style>
-    
 @endsection

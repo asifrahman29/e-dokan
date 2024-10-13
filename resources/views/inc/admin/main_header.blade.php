@@ -249,7 +249,7 @@
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                         aria-expanded="false">
                         <div class="avatar-sm">
-                            <img src="{{ asset(Auth::user()->image)}}" alt="..." class="avatar-img rounded-circle" />
+                            <img src="{{ asset(Auth::user()->avatar??(Auth::user()->image??'assets/img/profile.jpg')) }}" alt="..." class="avatar-img rounded-circle" />
                         </div>
                         <span class="profile-username">
                             <span class="op-7">Hi,</span>
@@ -261,13 +261,13 @@
                             <li>
                                 <div class="user-box">
                                     <div class="avatar-lg">
-                                        <img src="{{ asset(Auth::user()->image)}}" alt="image profile"
+                                        <img src="{{ asset(Auth::user()->avatar??(Auth::user()->image??'assets/img/profile.jpg')) }}" alt="image profile"
                                             class="avatar-img rounded" />
                                     </div>
                                     <div class="u-text">
                                         <h4>{{ ucfirst(Auth::user()->name) }}</h4>
                                         <p class="text-muted">{{ Auth::user()->email }}</p>
-                                        <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View
+                                        <a href="{{ route('profile.edit') }}" class="btn btn-xs btn-secondary btn-sm">View
                                             Profile</a>
                                     </div>
                                 </div>

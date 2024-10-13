@@ -24,6 +24,10 @@ class User extends Authenticatable
         'role',
         'phone',
         'image',
+        'provider',
+        'provider_id',
+        'avatar',
+        'email_verified_at',
     ];
 
     /**
