@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Import\InvoiceController as ImportSupplyInvoice;
+use App\Http\Controllers\Import\SupplierController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Social\SocialAuthController;
@@ -51,7 +53,12 @@ Route::middleware('auth', 'role:superadmin')->group(function () {
 //  */
 Route::middleware('auth', 'role:admin')->group(function () {
     Route::resource('product', ProductController::class,)->names('products');
-    
+    Route::prefix('import')->group(function () {
+        Route::resource('suppliers', SupplierController::class)->names('suppliers');
+        Route::get('product/{id?}/{name?}/{invoice?}', [ImportSupplyInvoice::class, 'create'])->name('ImportsupplyInvoiceCreate');
+        Route::post('product', [ImportSupplyInvoice::class, 'store'])->name('import.invoice.store');
+        Route::resource('incevoice', ImportSupplyInvoice::class)->names('supplyInvoice');
+    });
 });
 
 

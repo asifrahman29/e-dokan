@@ -3,7 +3,8 @@
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
             <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('assets/img/kaiadmin/logo_light.svg')}}" alt="navbar brand" class="navbar-brand" height="20" />
+                <img src="{{ asset('assets/img/kaiadmin/logo_light.svg') }}" alt="navbar brand" class="navbar-brand"
+                    height="20" />
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -30,11 +31,8 @@
                     </a>
                     <div class="collapse" id="dashboard">
                         <ul class="nav nav-collapse">
-                            <li>
-                                <a href="../demo1/index.html">
-                                    <span class="sub-item">Dashboard 1</span>
-                                </a>
-                            </li>
+                            <x-admin.subitem href="{{ route('dashboard') }}" label="Dashboard" />
+                            <x-admin.subitem href="{{ url('/') }}" label="Go to Home" />
                         </ul>
                     </div>
                 </li>
@@ -44,28 +42,24 @@
                     </span>
                     <h4 class="text-section">Components</h4>
                 </li>
-
-                <x-admin.navitem collapseId="base" icon="layer-group" title="gfhfhfhgf">
-                    <x-admin.subitem href="components/avatars.html" label="Avatars" />
-                    <x-admin.subitem href="components/buttons.html" label="Buttons" />
-                    <x-admin.subitem href="components/cards.html" label="Cards" />
-                    <x-admin.subitem href="components/dropdowns.html" label="Dropdowns" />
-                    <x-admin.subitem href="components/modals.html" label="Modals" />
-                    <x-admin.subitem href="components/progress.html" label="Progress" />
-                    <x-admin.subitem href="components/tables.html" label="Tables" />
-                    <x-admin.subitem href="components/tabs.html" label="Tabs" />
-                    <x-admin.subitem href="components/tooltips.html" label="Tooltips" />
-                </x-admin.navitem>
-
+                @if (auth()->user()->hasRole('admin'))
+                    <x-admin.navitem collapseId="routeUserbase" icon="user" title="User">
+                        <x-admin.subitem href="routeSuparAmin" label="SuparAdmin" />
+                        <x-admin.subitem href="routeAdmin" label="Admins" />
+                        <x-admin.subitem href="routeCustomers" label="Customers" />
+                        <x-admin.subitem href="routeSuppliers" label="Suppliers" />
+                    </x-admin.navitem>
+                @endif
                 <x-admin.navitem collapseId="productscollapse" icon="th-list" title="Products">
                     <x-admin.subitem href="{{ route('products.index') }}" label="Show Products" />
-                    <x-admin.subitem href="sidebar-style-3.html" label="Sidebar Style 3" />
+                    <x-admin.subitem href="Low Product" label="Low Product" />
                 </x-admin.navitem>
-                <x-admin.navitem collapseId="sidebarLayouts" icon="th-list" title="Sidebar Layouts">
-                    <x-admin.subitem href="sidebar-style-2.html" label="Sidebar Style 2" />
-                    <x-admin.subitem href="sidebar-style-3.html" label="Sidebar Style 3" />
+                <x-admin.navitem collapseId="importCollapse" icon="file-import" title="Import Product">
+                    <x-admin.subitem href="{{ route('suppliers.index')}}" label="Suppliers" />
+                    <x-admin.subitem href="{{ route('ImportsupplyInvoiceCreate')}}" label="Import" />
+                    <x-admin.subitem href="invoice" label="Invoice" />
                 </x-admin.navitem>
-
+                
                 <x-admin.navitem collapseId="forms" icon="pen-square" title="Forms">
                     <x-admin.subitem href="forms/forms.html" label="Basic Form" />
                 </x-admin.navitem>
@@ -87,7 +81,8 @@
 
                 <x-admin.navitem icon="layer-group" title="thakbe" color="primary" badge="2" navlink="some-link" />
                 <x-admin.navitem icon="desktop" title="Widgets" color="success" badge="4" navlink="widgets.html" />
-                <x-admin.navitem icon="file" title="Documentation" color="secondary" badge="4" navlink="../../documentation/index.html" />
+                <x-admin.navitem icon=" icon-settings" title="Setting" color="secondary" badge="4"
+                    navlink="setting" />
 
             </ul>
         </div>

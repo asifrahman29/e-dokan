@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Subcategory;
+use App\Models\Supplier;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -49,5 +50,7 @@ class DatabaseSeeder extends Seeder
             $product->brand_id = $brands->random()->id;
             $product->save();
         });
+
+        Supplier::factory(10)->create();
     }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('coupon_code')->nullable();
             $table->string('order_number');
             $table->decimal('total_price', 12, 2);
+            $table->decimal('remaining_amount', 12, 2)->default(0.00);
             $table->string('shipping_address')->nullable();
             $table->dateTime('order_date')->nullable();
             $table->enum('status', ['pending', 'shipped', 'delivered', 'cancelled'])->default('pending');

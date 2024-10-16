@@ -47,7 +47,7 @@ class Product extends Model
 
     /**
      * Relationships
-     * has many : carts, reviews, orders, wishlists
+     * has many : carts, reviews, orders, wishlists, SupplyInvoiceItem
      * has one : productAttribute
      */
     public function carts(): HasMany
@@ -73,6 +73,11 @@ class Product extends Model
     public function productAttributes(): HasOne
     {
         return $this->hasOne(ProductAttribute::class);
+    }
+
+    public function supplyInvoiceItem() : HasMany
+    {
+        return $this->hasMany(SupplyInvoiceItem::class);
     }
 
     /**

@@ -376,7 +376,7 @@
                                         <div class="item-list">
                                             <div class="avatar">
                                                 <img
-                                                    src="{{ asset('{{ asset('assets/img/chadengle.jpg') }}') }}"
+                                                    src="{{ asset('assets/img/chadengle.jpg') }}"
                                                     alt="..."
                                                     class="avatar-img rounded-circle" />
                                             </div>
