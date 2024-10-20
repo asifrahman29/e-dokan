@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('invoice_number')->unique();
             $table->date('invoice_date');
             $table->decimal('total_amount', 12, 2);
+            $table->enum('status', ['composed', 'stocked', 'canceled'])->default('composed');
             $table->timestamps();
         
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');

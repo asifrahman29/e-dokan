@@ -57,7 +57,7 @@
                 <x-admin.navitem collapseId="importCollapse" icon="file-import" title="Import Product">
                     <x-admin.subitem href="{{ route('suppliers.index')}}" label="Suppliers" />
                     <x-admin.subitem href="{{ route('ImportsupplyInvoiceCreate')}}" label="Import" />
-                    <x-admin.subitem href="invoice" label="Invoice" />
+                    <x-admin.subitem href="{{ route('supplyInvoice.index')}}" label="Invoice" />
                 </x-admin.navitem>
                 
                 <x-admin.navitem collapseId="forms" icon="pen-square" title="Forms">

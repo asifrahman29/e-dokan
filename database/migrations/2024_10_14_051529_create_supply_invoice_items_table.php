@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity');
             $table->decimal('cost_price', 10, 2);
+            $table->enum('status', ['composed', 'stocked', 'canceled'])->default('composed');
             $table->timestamps();
         
             $table->foreign('supply_invoice_id')->references('id')->on('supply_invoices')->onDelete('cascade');

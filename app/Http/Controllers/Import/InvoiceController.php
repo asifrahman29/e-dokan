@@ -7,7 +7,6 @@ use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\SupplyInvoice;
 use App\Models\SupplyInvoiceItem;
-use Hamcrest\Type\IsNumeric;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -19,7 +18,23 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //
+        $suppliers = Supplier::all();
+
+        $invoices = SupplyInvoice::with('supplier:id,name,company_name')
+            ->itemsCount()
+            ->composed()
+            ->orderByDesc('id')
+            ->itemsCountQuantity()
+            ->get();
+
+
+            // dpr($invoices);
+        // var_dump('<pre>'.$invoices.'</pre>');
+        if (request()->ajax()) {
+            return $invoices;
+        }
+
+        return view('import.invoice.index', compact('suppliers', 'invoices'));
     }
 
     /**
@@ -106,17 +121,23 @@ class InvoiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(SupplyInvoice $invoice)
     {
-        //
+        $invoice->load('supplier:id,name,company_name','items.product:id,name,slug');
+        $invoice->previous = $invoice->previousRoute('supplyInvoice.show');
+        $invoice->next = $invoice->nextRoute('supplyInvoice.show');
+
+        return view('import.invoice.show', compact('invoice'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(SupplyInvoice $invoice)
     {
-        //
+        $invoice->load('supplier:id,name,company_name','items.product:id,name,slug');
+        // dpr($invoice);
+        return view('import.invoice.edit', compact('invoice'));
     }
 
     /**

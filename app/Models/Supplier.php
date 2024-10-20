@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Supplier extends Model
 {
@@ -13,10 +14,15 @@ class Supplier extends Model
         'name','email', 'phone', 'company_name', 'address'
     ];
 
-    public function supplyInvoices()
+    /**
+     * # Relationships
+     * HasMany: SupplyInvoice as invoices
+     */
+    public function invoices() : HasMany
     {
         return $this->hasMany(SupplyInvoice::class);
     }
+
     public function scopeSearch($query, $term)
     {
         $term = "%$term%";

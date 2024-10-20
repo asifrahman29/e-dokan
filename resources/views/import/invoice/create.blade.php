@@ -20,77 +20,13 @@
                     <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Import Product</a>
+                    <a href="#ImportProduct">Import Product</a>
                 </li>
             </ul>
         </div>
-        <div class="row">
+        <div class="row" id="ImportProduct">
             <div class="col-12">
-                <form id="importForm" class="form" action="{{ route('import.invoice.store') }}" method="POST"
-                    enctype="multipart/form-data">
-                    @csrf
-                    <div class="row mb-3 border-bottom border-info-subtle border-5 pb-4">
-                        <div class="col-md-4">
-                            <label for="supplier" class="form-label">Select Supplier</label>
-                            <select class="form-control" id="supplier" name="supplier_id" required>
-                                @if ($supplier)
-                                    <option selected value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                                @endif
-                                @if ($suppliers)
-                                    <option value="">Select</option>
-                                    @foreach ($suppliers as $supplierItem)
-                                        <option value="{{ $supplierItem->id }}">{{ $supplierItem->name }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="invoice_number" class="form-label">Invoice Number</label>
-                            <input type="text" class="form-control" id="invoice_number" name="invoice_number" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="invoice_date" class="form-label">Invoice Date</label>
-                            <input type="date" class="form-control" id="invoice_date" name="invoice_date" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="input-group mb-3">
-                                <input type="text" id="search-product" placeholder="Search Product" class="form-control">
-                                <button id="clear-search" class="btn btn-outline-secondary" type="button">Clear</button>
-                            </div>
-                            <ul class="list-group product-select">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    No products found.
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-8">
-                            <table class="table responsive table-responsive-sm" id="products-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width:40%">Product</th>
-                                        <th style="width:15%">Quantity</th>
-                                        <th style="width:15%">Price</th>
-                                        <th style="width:30%">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center border-info-subtle gap-5 border-top border-5 pt-4 mt-4">
-                        <div>
-                            <div class="input-group">
-                                <span class="input-group-text"><strong>Final Total Amount</strong></span>
-                                <input type="number" class="form-control" id="final_total" name="final_total" readonly>
-                            </div>
-                        </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </form>
+                @include('import.invoice.form')
             </div>
         </div>
     </div>

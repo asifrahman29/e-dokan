@@ -11,7 +11,7 @@ class SupplyInvoiceItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'supply_invoice_id', 'product_id', 'quantity', 'cost_price'
+        'supply_invoice_id', 'product_id', 'quantity', 'cost_price', 'status'
     ];
 
     public function supplyInvoice() : BelongsTo
@@ -22,5 +22,23 @@ class SupplyInvoiceItem extends Model
     public function product() : BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * Query Scopes
+     * status: 'composed', 'stocked', 'canceled
+     */
+    public function scopeComposed($query)
+    {
+        return $query->where('status', 'composed');
+    }
+
+    public function scopeStocked($query)
+    {
+        return $query->where('status', 'stocked');
+    }
+    public function scopeCanceled($query)
+    {
+        return $query->where('status', 'canceled');
     }
 }

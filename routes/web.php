@@ -57,7 +57,7 @@ Route::middleware('auth', 'role:admin')->group(function () {
         Route::resource('suppliers', SupplierController::class)->names('suppliers');
         Route::get('product/{id?}/{name?}/{invoice?}', [ImportSupplyInvoice::class, 'create'])->name('ImportsupplyInvoiceCreate');
         Route::post('product', [ImportSupplyInvoice::class, 'store'])->name('import.invoice.store');
-        Route::resource('incevoice', ImportSupplyInvoice::class)->names('supplyInvoice');
+        Route::resource('invoice', ImportSupplyInvoice::class)->names('supplyInvoice');
     });
 });
 
