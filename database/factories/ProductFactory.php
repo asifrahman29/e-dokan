@@ -21,6 +21,9 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+        // Ensure Subcategory is selected along with its Category
+        $subcategory = Subcategory::inRandomOrder()->with('category')->first();
+
         return [
             'name' => $this->faker->words(1, true),
             'description' => $this->faker->optional()->paragraph(),
@@ -28,9 +31,9 @@ class ProductFactory extends Factory
             'quantity' => $this->faker->numberBetween(1, 100),
             'slug' => $this->generateUniqueSlug(),
             'product_image' => 'products/images/fake-image.jpg',
-            'category_id' => Category::factory(),
-            'subcategory_id' => Subcategory::factory(),
-            'brand_id' => Brand::factory(),
+            'category_id' => $subcategory->category_id,
+            'subcategory_id' => $subcategory->id,
+            'brand_id' => Brand::inRandomOrder()->first()->id,
         ];
     }
     protected function generateUniqueSlug()

@@ -17,6 +17,8 @@ class Category extends Model
         'is_active',
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     /**
      * Relationships: has many subcategories, products.
      */

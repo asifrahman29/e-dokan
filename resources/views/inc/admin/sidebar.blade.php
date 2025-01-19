@@ -44,10 +44,11 @@
                 </li>
                 @if (auth()->user()->hasRole('admin'))
                     <x-admin.navitem collapseId="routeUserbase" icon="user" title="User">
-                        <x-admin.subitem href="routeSuparAmin" label="SuparAdmin" />
-                        <x-admin.subitem href="routeAdmin" label="Admins" />
-                        <x-admin.subitem href="routeCustomers" label="Customers" />
-                        <x-admin.subitem href="routeSuppliers" label="Suppliers" />
+                        <x-admin.subitem href="{{ route('user.index') }}" label="All user" />
+                        <x-admin.subitem href="{{ route('user.indexAdmin') }}" label="Admins" />
+                        <x-admin.subitem href="{{ route('user.indexCustomers') }}" label="Customers" />
+                        <x-admin.subitem href="{{ route('user.indexSuparAdmin') }}" label="Super Admin" />
+                        <x-admin.subitem href="#routeSuppliers" label="Suppliers" />
                     </x-admin.navitem>
                 @endif
                 <x-admin.navitem collapseId="productscollapse" icon="th-list" title="Products">
@@ -58,29 +59,7 @@
                     <x-admin.subitem href="{{ route('suppliers.index')}}" label="Suppliers" />
                     <x-admin.subitem href="{{ route('ImportsupplyInvoiceCreate')}}" label="Import" />
                     <x-admin.subitem href="{{ route('supplyInvoice.index')}}" label="Invoice" />
-                </x-admin.navitem>
-                
-                <x-admin.navitem collapseId="forms" icon="pen-square" title="Forms">
-                    <x-admin.subitem href="forms/forms.html" label="Basic Form" />
-                </x-admin.navitem>
-
-                <x-admin.navitem collapseId="tables" icon="table" title="Tables">
-                    <x-admin.subitem href="tables/tables.html" label="Basic Table" />
-                    <x-admin.subitem href="tables/datatables.html" label="Datatables" />
-                </x-admin.navitem>
-
-                <x-admin.navitem collapseId="maps" icon="map-marker-alt" title="Maps">
-                    <x-admin.subitem href="maps/googlemaps.html" label="Google Maps" />
-                    <x-admin.subitem href="maps/jsvectormap.html" label="Jsvectormap" />
-                </x-admin.navitem>
-
-                <x-admin.navitem collapseId="charts" icon="chart-bar" title="Charts">
-                    <x-admin.subitem href="charts/charts.html" label="Chart Js" />
-                    <x-admin.subitem href="charts/sparkline.html" label="Sparkline" />
-                </x-admin.navitem>
-
-                <x-admin.navitem icon="layer-group" title="thakbe" color="primary" badge="2" navlink="some-link" />
-                <x-admin.navitem icon="desktop" title="Widgets" color="success" badge="4" navlink="widgets.html" />
+                </x-admin.navitem>        
                 <x-admin.navitem icon=" icon-settings" title="Setting" color="secondary" badge="4"
                     navlink="setting" />
 

@@ -30,27 +30,22 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        User::factory(100)->create();
-        // Create 15 Categories
-        $categories = Category::factory(15)->create();
+        // Create 10 random users
+        User::factory(10)->create();
 
-        // Create 30 Subcategories, associate them with random categories
-        $subcategories = Subcategory::factory(30)->make()->each(function ($subcategory) use ($categories) {
-            $subcategory->category_id = $categories->random()->id;
-            $subcategory->save();
-        });
+        // Create 15 Categories
+        Category::factory(15)->create();
+
+        // Create 30 Subcategories
+        Subcategory::factory(30)->create();
 
         // Create 10 Brands
-        $brands = Brand::factory(10)->create();
+        Brand::factory(10)->create();
 
-        // Create 200 Products, associate them with random categories, subcategories, and brands
-        Product::factory(200)->make()->each(function ($product) use ($categories, $subcategories, $brands) {
-            $product->category_id = $categories->random()->id;
-            $product->subcategory_id = $subcategories->random()->id;
-            $product->brand_id = $brands->random()->id;
-            $product->save();
-        });
+        // Create 200 Products
+        Product::factory(200)->create();
 
+        // Create 10 Suppliers
         Supplier::factory(10)->create();
     }
 }

@@ -20,9 +20,10 @@ class SubcategoryFactory extends Factory
      protected $model = Subcategory::class;
     public function definition(): array
     {
+        $categories = Category::all(); 
         return [
-            'category_id' => Category::factory(),
-            'name' => $this->faker->word(),
+            'name' => $this->faker->unique()->word(),
+            'category_id' => $categories->random()->id,
         ];
     }
 }

@@ -16,6 +16,7 @@ class Subcategory extends Model
         'category_id',
         'is_active',
     ];
+    protected $hidden = ['created_at', 'updated_at'];
 
     /**
      * # Relationships

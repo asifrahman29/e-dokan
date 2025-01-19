@@ -152,4 +152,22 @@ class Product extends Model
                 });
         });
     }
+    public function scopeFilter($query, array $filters)
+    {
+        $value = $filters['value'] ?? null; // string
+        $values = $filters['values'] ?? null; // array
+        $where = $filters['where'] ?? 'id';
+        $whereHas = $filters['whereHas'] ?? null;
+    
+        $query->when($value || $values, function ($query) use ($whereHas, $where, $value, $values) {
+            $query->whereHas($whereHas, function ($subQuery) use ($where, $value, $values) {
+                if ($values) {
+                    $subQuery->whereIn($where, (array) $values);
+                } else {
+                    $subQuery->where($where, $value);
+                }
+            });
+        });
+    }
+    
 }

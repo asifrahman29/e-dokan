@@ -55,9 +55,10 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
-        dd( $request->all() );
+        dd($request->all());
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -93,7 +94,7 @@ class ProductController extends Controller
         $product->previous = $product->previousRoute('products.show');
         $product->next = $product->nextRoute('products.show');
 
-        if (request()->ajax()){
+        if (request()->ajax()) {
             return response()->json($product);
         }
 
@@ -122,5 +123,84 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    /**
+     * product view in frontend by category, subcategory, brand, search, single product, cart, wishlist, checkout
+     */
+    public function category($category, Request $request)
+    {
+        $brandQuery = $request->query('brand');
+        $req_brands = [];
+
+        if ($brandQuery) {
+            $decodedBrands = urldecode($brandQuery);
+            $req_brands = array_unique(explode('|', $decodedBrands));
+            $req_brands = Brand::whereIn('name', $req_brands)->pluck('name')->toArray();
+        }
+
+
+        $categories = Category::withCount(['products'=>function($query){
+            $query->active()->available();
+        }])
+        ->with('subcategories')
+        ->withCount('subcategories')
+        ->get();
+
+        $brands = Brand::plucking();
+
+        $productsQuery = Product::with('category:id,name', 'subcategory:id,name', 'brand:id,name');
+        $productsQuery->filter(['whereHas' => 'category', 'where' => 'name', 'value' => $category]);
+        $req_brands? $productsQuery->filter(['whereHas' => 'brand', 'where' => 'name', 'values' => $req_brands]): '';
+        $products = $productsQuery->active()->available()->paginate(10);
+
+        return view('products.category', compact('categories', 'brands', 'products', 'req_brands'));
+    }
+
+    public function subcategory($category, $subcategory, Request $request)
+    {
+        $brandQuery = $request->query('brand');
+        $req_brands = [];
+
+        if ($brandQuery) {
+            $decodedBrands = urldecode($brandQuery);
+            $req_brands = array_unique(explode('|', $decodedBrands));
+            $req_brands = Brand::whereIn('name', $req_brands)->pluck('name')->toArray();
+        }
+
+        $categories = Category::withCount(['products'=>function($query){
+            $query->active()->available();
+        }])
+        ->with('subcategories')
+        ->get();
+        $brands = Brand::plucking();
+
+        $productsQuery = Product::with('category:id,name', 'subcategory:id,name', 'brand:id,name');
+        $productsQuery->filter(['whereHas' => 'category', 'where' => 'name', 'value' => $category]);
+        $productsQuery->filter(['whereHas' => 'subcategory', 'where' => 'name', 'value' => $subcategory]);
+        $req_brands? $productsQuery->filter(['whereHas' => 'brand', 'where' => 'name', 'values' => $req_brands]): '';
+        $products = $productsQuery->active()->available()->paginate(10);
+
+        return view('products.category', compact('categories', 'brands', 'products' , 'req_brands'));
+    }
+
+    public function brand($category, $subcategory, $brand)
+    {
+        $categories = Category::withCount(['products'=>function($query){
+            $query->active()->available();
+        }])
+        ->with('subcategories')
+        ->get();
+        $brands = Brand::plucking();
+
+        dd($brand);
+
+        $productsQuery = Product::with('category:id,name', 'subcategory:id,name', 'brand:id,name');
+        $productsQuery->filter(['whereHas' => 'category', 'where' => 'name', 'value' => $category]);
+        $productsQuery->filter(['whereHas' => 'subcategory', 'where' => 'name', 'value' => $subcategory]);
+        $productsQuery->filter(['whereHas' => 'brand', 'where' => 'name', 'values' => $brand]);
+        $products = $productsQuery->active()->available()->paginate(10);
+
+        return view('products.category', compact('categories', 'brands', 'products'));
     }
 }
